@@ -1,12 +1,12 @@
 /*
-  This is a library written for the AMS AS7341L 10-Channel Spectral Sensor Frontend
+  This is a library written for the AMS AS7341X 10-Channel Spectral Sensor Frontend
   SparkFun sells these at its website:
   https://www.sparkfun.com/products/17719
 
   Do you like this library? Help support open source hardware. Buy a board!
 
   Written by Ricardo Ramos  @ SparkFun Electronics, March 15th, 2021
-  This file declares all I2C communication functions used in the AS7341L sensor library.
+  This file declares all I2C communication functions used in the AS7341X sensor library.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,13 +16,13 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __SPARKFUN_AS7341L_IO__
-#define __SPARKFUN_AS7341L_IO__
+#ifndef __SPARKFUN_AS7341X_IO__
+#define __SPARKFUN_AS7341X_IO__
 
 #include <Arduino.h>
 #include <Wire.h>
 
-class SparkFun_AS7341L_IO
+class SparkFun_AS7341X_IO
 {
 private:
 	TwoWire* _i2cPort;
@@ -32,9 +32,9 @@ private:
 	
 public:
 	// Default constructor
-	SparkFun_AS7341L_IO() {}
+	SparkFun_AS7341X_IO() {}
 	// Starts two wire interface.
-	bool begin(byte AS7341L_address = DEFAULT_AS7341L_ADDR, TwoWire& wirePort = Wire);
+	bool begin(byte AS7341X_address = DEFAULT_AS7341X_ADDR, TwoWire& wirePort = Wire);
 
 	// Returns true if we get a reply from the I2C device.
 	bool isConnected();
@@ -61,4 +61,4 @@ public:
 	bool isBitSet(byte registerAddress, byte bitPosition);
 };
 
-#endif  // ! __SPARKFUN_AS7341L_IO__
+#endif  // ! __SPARKFUN_AS7341X_IO__

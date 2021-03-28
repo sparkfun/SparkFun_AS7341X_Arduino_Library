@@ -1,12 +1,12 @@
 /*
-  This is a library written for the AMS AS7341L 10-Channel Spectral Sensor Frontend
+  This is a library written for the AMS AS7341X 10-Channel Spectral Sensor Frontend
   SparkFun sells these at its website:
   https://www.sparkfun.com/products/17719
 
   Do you like this library? Help support open source hardware. Buy a board!
 
   Written by Ricardo Ramos  @ SparkFun Electronics, March 15th, 2021
-  This file defines all I2C communication functions implementations used in the AS7341L sensor library.
+  This file defines all I2C communication functions implementations used in the AS7341X sensor library.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,17 +16,17 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SparkFun_AS7341L_Constants.h"
-#include "SparkFun_AS7341L_IO.h"
+#include "SparkFun_AS7341X_Constants.h"
+#include "SparkFun_AS7341X_IO.h"
 
-bool SparkFun_AS7341L_IO::begin(byte AS7341L_address, TwoWire& wirePort)
+bool SparkFun_AS7341X_IO::begin(byte AS7341X_address, TwoWire& wirePort)
 {
 	_i2cPort = &wirePort;
-	_address = AS7341L_address;
+	_address = AS7341X_address;
 	return isConnected();
 }
 
-bool SparkFun_AS7341L_IO::isConnected()
+bool SparkFun_AS7341X_IO::isConnected()
 {
 	_i2cPort->beginTransmission(_address);
 	if (_i2cPort->endTransmission() != 0)
@@ -34,7 +34,7 @@ bool SparkFun_AS7341L_IO::isConnected()
 	return (true); 
 }
 
-void SparkFun_AS7341L_IO::writeMultipleBytes(byte registerAddress, const byte* buffer, byte const packetLength)
+void SparkFun_AS7341X_IO::writeMultipleBytes(byte registerAddress, const byte* buffer, byte const packetLength)
 {
 	setBankConfiguration(registerAddress);
 	_i2cPort->beginTransmission(_address);
@@ -45,7 +45,7 @@ void SparkFun_AS7341L_IO::writeMultipleBytes(byte registerAddress, const byte* b
 	_i2cPort->endTransmission();
 }
 
-void SparkFun_AS7341L_IO::readMultipleBytes(byte registerAddress, byte* buffer, byte const packetLength)
+void SparkFun_AS7341X_IO::readMultipleBytes(byte registerAddress, byte* buffer, byte const packetLength)
 {	
 	setBankConfiguration(registerAddress);
 	_i2cPort->beginTransmission(_address);
@@ -58,7 +58,7 @@ void SparkFun_AS7341L_IO::readMultipleBytes(byte registerAddress, byte* buffer, 
 
 }
 
-byte SparkFun_AS7341L_IO::readSingleByte(byte registerAddress)
+byte SparkFun_AS7341X_IO::readSingleByte(byte registerAddress)
 {	
 	setBankConfiguration(registerAddress);
 	byte result;
@@ -70,7 +70,7 @@ byte SparkFun_AS7341L_IO::readSingleByte(byte registerAddress)
 	return result;
 }
 
-void SparkFun_AS7341L_IO::writeSingleByte(byte registerAddress, byte const value)
+void SparkFun_AS7341X_IO::writeSingleByte(byte registerAddress, byte const value)
 {	
 	setBankConfiguration(registerAddress);
 	_i2cPort->beginTransmission(_address);
@@ -79,21 +79,21 @@ void SparkFun_AS7341L_IO::writeSingleByte(byte registerAddress, byte const value
 	_i2cPort->endTransmission();
 }
 
-void SparkFun_AS7341L_IO::setRegisterBit(byte registerAddress, byte const bitPosition)
+void SparkFun_AS7341X_IO::setRegisterBit(byte registerAddress, byte const bitPosition)
 {
 	byte value = readSingleByte(registerAddress);
 	value |= (1 << bitPosition);
 	writeSingleByte(registerAddress, value);
 }
 
-void SparkFun_AS7341L_IO::clearRegisterBit(byte registerAddress, byte const bitPosition)
+void SparkFun_AS7341X_IO::clearRegisterBit(byte registerAddress, byte const bitPosition)
 {
 	byte value = readSingleByte(registerAddress);
 	value &= ~(1 << bitPosition);
 	writeSingleByte(registerAddress, value);
 }
 
-bool SparkFun_AS7341L_IO::isBitSet(byte registerAddress, byte const bitPosition)
+bool SparkFun_AS7341X_IO::isBitSet(byte registerAddress, byte const bitPosition)
 {
 	byte value = readSingleByte(registerAddress);
 	byte mask = 1 << bitPosition;
@@ -103,7 +103,7 @@ bool SparkFun_AS7341L_IO::isBitSet(byte registerAddress, byte const bitPosition)
 		return false;
 }
 
-void SparkFun_AS7341L_IO::setBankConfiguration(byte regAddress)
+void SparkFun_AS7341X_IO::setBankConfiguration(byte regAddress)
 {
 	byte result;
 	_i2cPort->beginTransmission(_address);

@@ -1,12 +1,12 @@
 /*
-  This is a library written for the AMS AS7341L 10-Channel Spectral Sensor Frontend
+  This is a library written for the AMS AS7341X 10-Channel Spectral Sensor Frontend
   SparkFun sells these at its website:
   https://www.sparkfun.com/products/17719
 
   Do you like this library? Help support open source hardware. Buy a board!
 
   Written by Ricardo Ramos  @ SparkFun Electronics, March 15th, 2021
-  This file declares the core functions available in the AS7341L sensor library.
+  This file declares the core functions available in the AS7341X sensor library.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,23 +16,26 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __SPARKFUN_AS7341L_LIBRARY__
-#define __SPARKFUN_AS7341L_LIBRARY__
+#ifndef __SparkFun_AS7341X_LIBRARY__
+#define __SparkFun_AS7341X_LIBRARY__
 
-#include "SparkFun_AS7341L_Constants.h"
-#include "SparkFun_AS7341L_IO.h"
+#include "SparkFun_AS7341X_Constants.h"
+#include "SparkFun_AS7341X_IO.h"
 #include <SparkFun_PCA9536_Arduino_Library.h>		// Get library here: https://github.com/sparkfun/SparkFun_PCA9536_Arduino_Library
 
-class SparkFun_AS7341L
+class SparkFun_AS7341X
 {
 private:
 
-	// AS7341L I2C interface object
-	SparkFun_AS7341L_IO as7341_io;
+	// AS7341X I2C interface object
+	SparkFun_AS7341X_IO as7341_io;
 	
 	// PCA9536 I2C interface object
 	PCA9536 pca9536_io;
 
+	// Current device
+	AS7341X_DEVICE device;
+	
 	byte lastError;	
 	
 	bool whiteLedPowered = false;
@@ -52,11 +55,11 @@ private:
 	float readSingleBasicCountChannelValue(uint16_t raw);
 	
 public:
-	// Default empty constructor
-	SparkFun_AS7341L() {}
+	// Constructor
+	SparkFun_AS7341X(AS7341X_DEVICE deviceUsed = AS7341X_DEVICE::AS7341L);
 	
-	// Initialize AS7341L and PCA9536
-	bool begin(byte AS7341L_address = DEFAULT_AS7341L_ADDR, TwoWire& wirePort = Wire);	
+	// Initialize AS7341X and PCA9536
+	bool begin(byte AS7341X_address = DEFAULT_AS7341X_ADDR, TwoWire& wirePort = Wire);	
 	
 	// Check if board's devices are connected and responding properly
 	bool isConnected();
@@ -67,11 +70,11 @@ public:
 	// Read all channels basic counts. Further information can be found in AN000633, page 7
 	bool readAllChannelsBasicCounts(float* channelDataBasicCounts);
 	
-	// Enable AS7341L
-	void enable_AS7341L();
+	// Enable AS7341X
+	void enable_AS7341X();
 	
-	// Power down AS7341L
-	void disable_AS7341L();
+	// Power down AS7341X
+	void disable_AS7341X();
 	
 	// Return last error 
 	byte getLastError();
@@ -113,10 +116,10 @@ public:
 	unsigned int getASTEP();
 	
 	// Set ADC gain
-	void setGain(AS7341L_GAIN gain = AS7341L_GAIN::GAIN_X256);
+	void setGain(AS7341X_GAIN gain = AS7341X_GAIN::GAIN_X256);
 	
 	// Return ADC gain
-	AS7341L_GAIN getGain();
+	AS7341X_GAIN getGain();
 
 	// Enables interrupt pin functionality
 	void enablePinInterupt();
@@ -232,7 +235,7 @@ public:
 	// Disables measurements by clearing SP_EN bit
 	void disableMeasurements();
 	
-	// Returns true if AS7341L has SP_EN set
+	// Returns true if AS7341X has SP_EN set
 	bool isMeasurementEnabled();
 		
 	// Enable threshold interrupt generation
@@ -250,6 +253,9 @@ public:
 	// Returns true if the channel value is higher than the high threshold value
 	bool highThresholdInterruptSet();
 	
+	// AS7341 specific function - returns 100 for 100 Hz, 120 for 120 Hz, 0 for unknown and -1 for invalid device
+	int getFlickerFrequency();
+	
 };
 
-#endif // ! __SPARKFUN_AS7341L_LIBRARY__
+#endif // ! __SparkFun_AS7341X_LIBRARY__

@@ -1,12 +1,12 @@
 /*
-  This is a library written for the AMS AS7341L 10-Channel Spectral Sensor Frontend
+  This is a library written for the AMS AS7341X 10-Channel Spectral Sensor Frontend
   SparkFun sells these at its website:
   https://www.sparkfun.com/products/17719
 
   Do you like this library? Help support open source hardware. Buy a board!
 
   Written by Ricardo Ramos  @ SparkFun Electronics, March 15th, 2021
-  This file declares all constants used in the AS7341L sensor library.
+  This file declares all constants used in the AS7341X sensor library.
 
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,13 +16,13 @@
   along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef  __SPARKFUN_AS7341L_CONSTANTS__
-#define __SPARKFUN_AS7341L_CONSTANTS__
+#ifndef __SparkFun_AS7341X_CONSTANTS__
+#define __SparkFun_AS7341X_CONSTANTS__
 
 #include <Arduino.h>
 
 // Constants definitions
-const byte DEFAULT_AS7341L_ADDR = 0x39;
+const byte DEFAULT_AS7341X_ADDR = 0x39;
 
 // PCA9536 GPIO pins
 const byte POWER_LED_GPIO = 0x0;
@@ -31,13 +31,21 @@ const byte IR_LED_GPIO = 0x02;
 
 // Error constants
 const byte ERROR_NONE = 0x0;
-const byte ERROR_AS7341L_I2C_COMM_ERROR = 0x01;
+const byte ERROR_AS7341X_I2C_COMM_ERROR = 0x01;
 const byte ERROR_PCA9536_I2C_COMM_ERROR = 0x02;
-const byte ERROR_AS7341L_WRONG_CHIP_ID = 0x03;
-const byte ERROR_AS7341L_MEASUREMENT_TIMEOUT = 0x04;
+const byte ERROR_AS7341X_WRONG_CHIP_ID = 0x03;
+const byte ERROR_AS7341X_MEASUREMENT_TIMEOUT = 0x04;
+const byte ERROR_AS7341X_INVALID_DEVICE = 0x05;
+
+// Device types
+enum class AS7341X_DEVICE
+{
+	AS7341,
+	AS7341L
+};
 
 // Gain enumeration
-enum class AS7341L_GAIN
+enum class AS7341X_GAIN
 {
 	GAIN_HALF,
 	GAIN_X1,
@@ -104,6 +112,9 @@ const byte REGISTER_ASTEP_L			= 0xca;
 const byte REGISTER_ASTEP_H			= 0xcb;
 const byte REGISTER_AGC_GAIN_MAX	= 0xcf;
 const byte REGISTER_AZ_CONFIG		= 0xd6;
+const byte REGISTER_FD_TIME_1		= 0xd8;
+const byte REGISTER_FD_TIME_2		= 0xda;
+const byte REGISTER_FD_STATUS		= 0xdb;
 const byte REGISTER_INTENAB			= 0xf9;
 const byte REGISTER_CONTROL			= 0xfa;
 const byte REGISTER_FIFO_MAP		= 0xfc;
@@ -111,4 +122,5 @@ const byte REGISTER_FIFO_LVL		= 0xfd;
 const byte REGISTER_FDATA_L			= 0xfe;
 const byte REGISTER_FDATA_H			= 0xff;
 
-#endif // ! __SPARKFUN_AS7341L_CONSTANTS__
+
+#endif // ! __SparkFun_AS7341X_CONSTANTS__

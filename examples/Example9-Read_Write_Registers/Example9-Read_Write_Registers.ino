@@ -15,17 +15,17 @@
 */
 
 #include <Wire.h>
-#include "SparkFun_AS7341L_Arduino_Library.h"
+#include "SparkFun_AS7341X_Arduino_Library.h"
 
 // Main AS7341L object
-SparkFun_AS7341L as7341L;
+SparkFun_AS7341X as7341L;
 
 // Print a friendly error message
 void PrintErrorMessage()
 {
   switch (as7341L.getLastError())
   {
-  case ERROR_AS7341L_I2C_COMM_ERROR:
+  case ERROR_AS7341X_I2C_COMM_ERROR:
     Serial.println("Error: AS7341L I2C communication error");
     break;
 
@@ -33,10 +33,14 @@ void PrintErrorMessage()
     Serial.println("Error: PCA9536 I2C communication error");
     break;
     
-  case ERROR_AS7341L_MEASUREMENT_TIMEOUT:
+  case ERROR_AS7341X_MEASUREMENT_TIMEOUT:
     Serial.println("Error: AS7341L measurement timeout");
     break;
     
+  case ERROR_AS7341X_INVALID_DEVICE:
+    Serial.println("Error: AS7341L cannot measure flicker detection");
+    break;	
+	
   default:
     break;
   }
@@ -66,7 +70,7 @@ void setup()
   }
 
   // Bring AS7341L to the powered up state
-  as7341L.enable_AS7341L();
+  as7341L.enable_AS7341X();
 
   Serial.print("Register ENABLE value: ");
   Serial.println(as7341L.readRegister(0x80), HEX);

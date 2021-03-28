@@ -15,30 +15,34 @@
 */
 
 #include <Wire.h>
-#include "SparkFun_AS7341L_Arduino_Library.h"
+#include "SparkFun_AS7341X_Arduino_Library.h"
 
 // Main AS7341L object
-SparkFun_AS7341L as7341L;
+SparkFun_AS7341X as7341L;
 
 // Print a friendly error message
 void PrintErrorMessage()
 {
-  switch (as7341L.getLastError())
-  {
-  case ERROR_AS7341L_I2C_COMM_ERROR:
-    Serial.println("Error: AS7341L I2C communication error");
-    break;
-
+	switch (as7341L.getLastError())
+	{
+  case ERROR_AS7341X_I2C_COMM_ERROR:
+  	Serial.println("Error: AS7341X I2C communication error");
+  	break;
+  
   case ERROR_PCA9536_I2C_COMM_ERROR:
-    Serial.println("Error: PCA9536 I2C communication error");
-    break;
+  	Serial.println("Error: PCA9536 I2C communication error");
+  	break;
     
-  case ERROR_AS7341L_MEASUREMENT_TIMEOUT:
-    Serial.println("Error: AS7341L measurement timeout");
-    break;
-    
+  case ERROR_AS7341X_MEASUREMENT_TIMEOUT:
+  	Serial.println("Error: AS7341X measurement timeout");
+  	break;
+  	
+  case ERROR_AS7341X_INVALID_DEVICE:
+  	Serial.println("Error: AS7341L cannot measure flicker detection");
+  	break;
+  	
   default:
-    break;
+  	break;
   }
 }
 
@@ -66,7 +70,7 @@ void setup()
   }
 
   // Bring AS7341L to the powered up state
-  as7341L.enable_AS7341L();
+  as7341L.enable_AS7341X();
 
   // If the board was properly initialized, turn on LED_BUILTIN
   if (result == true)
